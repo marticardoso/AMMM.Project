@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import time
 import datetime
 import BRKGA as brkga # BRKGA framework (problem independent)
-import Decoders.DECODER_2_1 as decoder # Dgcoder algorithm (problem-dependent)
+import Decoders.DECODER_2_2 as decoder # Dgcoder algorithm (problem-dependent)
 from Python_Instances.factible_instance2 import data # Input data (problem-dependent and instance-dependent)
 from CONFIGURATION import config # Configuration parameters (problem-dependent and execution-dependent)
 from pandas import *
