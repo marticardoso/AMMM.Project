@@ -1,0 +1,1 @@
+data={"nNurses": 35, "nHours": 23, "minHours": 3, "maxHours": 5, "maxConsec": 3, "maxPresence": 8, "demand": [18, 17, 16, 15, 14, 13, 10, 10, 7, 10, 7, 8, 9, 7, 6, 9, 6, 8, 10, 7, 7, 10, 12]}
