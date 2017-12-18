@@ -63,7 +63,7 @@ def generateDemand(demand, demandInc, length, nNurses):
         return [min(int(demand),nNurses)]*length
 
 # Creates the CPLEX folder if not exists
-cplexfolder = "./CPLEX_Instances/"
+cplexfolder = "./InstanceGenerator/CPLEX_Instances/"
 if not os.path.exists(os.path.dirname(cplexfolder)):
     try:
         os.makedirs(os.path.dirname(cplexfolder))
@@ -72,7 +72,7 @@ if not os.path.exists(os.path.dirname(cplexfolder)):
             raise
 
 # Creates the Python folder if not exists
-phytonfolder = "./Python_Instances/"
+phytonfolder = "./InstanceGenerator/Python_Instances/"
 if not os.path.exists(os.path.dirname(phytonfolder)):
     try:
         os.makedirs(os.path.dirname(phytonfolder))

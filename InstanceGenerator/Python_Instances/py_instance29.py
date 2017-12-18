@@ -1,1 +1,1 @@
-data={"nNurses": 40, "nHours": 18, "minHours": 3, "maxHours": 8, "maxConsec": 6, "maxPresence": 8, "demand": [14, 11, 8, 6, 8, 9, 8, 5, 8, 9, 9, 11, 8, 10, 12, 12, 9, 10]}
+data={"nNurses": 29, "nHours": 18, "minHours": 3, "maxHours": 8, "maxConsec": 5, "maxPresence": 8, "demand": [6, 9, 7, 5, 7, 7, 5, 8, 10, 8, 7, 10, 11, 8, 9, 7, 7, 9]}
