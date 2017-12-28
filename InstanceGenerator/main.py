@@ -5,7 +5,7 @@ import os
 import errno
 
 # Configuration parameters
-from CONFIGURATION import config 
+from CONFIGURATION_Heur import config 
 print config
 
 # initializations
@@ -43,10 +43,10 @@ def generateValue(data, minBound=None, maxBound=None):
 #### If demandInc is valid: generates the first demand random (min,max)
 ####    and then the other demands are a random number between (previous-inc, previous+inc)
 #### Else: generate a list of random number between min and max
-def generateDemand(demand, demandInc, length, nNurses):
+def generateDemand(demand, demandInc, length, nNurses, rho):
     if isinstance(demand, list):
-        minDemand = min(int(demand[0]), nNurses)
-        maxDemand = min(int(demand[1]), nNurses)
+        minDemand = min(int(demand[0]), int(math.ceil(nNurses*rho)))
+        maxDemand = min(int(demand[1]), int(math.ceil(nNurses*rho)))
         instance_demand=[]
         lastDemand = None
         for i in range(instance_nHours):
@@ -95,7 +95,8 @@ for i in range(numInstances):
     # Max presence
     instance_maxPresence = generateValue(maxPresence, maxBound = instance_nHours)
     # Demand
-    instance_demand=generateDemand(demand, demandInc, length = instance_nHours, nNurses = instance_nNurses)
+    rho =float(instance_maxHours)/float(instance_nHours)
+    instance_demand=generateDemand(demand, demandInc, length = instance_nHours, nNurses = instance_nNurses, rho = rho)
     
     # CPLEX
     file = open(cplexfolder +'cplex_instance' + str(i) + '.dat','w')
@@ -110,13 +111,13 @@ for i in range(numInstances):
 
     # Python
     file = open(phytonfolder +'py_instance' + str(i) + '.py','w')
-    file.write('data={')
-    file.write('"nNurses": ' + str(instance_nNurses) + ', ')
-    file.write('"nHours": ' + str(instance_nHours) + ', ')
-    file.write('"minHours": ' + str(instance_minHours) + ', ')
-    file.write('"maxHours": ' + str(instance_maxHours) + ', ')
-    file.write('"maxConsec": ' + str(instance_maxConsec) + ', ')
-    file.write('"maxPresence": ' + str(instance_maxPresence) + ', ')
-    file.write('"demand": ' + str(instance_demand) + '')
+    file.writelines('data = { \n')
+    file.write('   "nNurses": ' + str(instance_nNurses) + ', \n')
+    file.writelines('   "nHours": ' + str(instance_nHours) + ',  \n')
+    file.writelines('   "minHours": ' + str(instance_minHours) + ',  \n')
+    file.writelines('   "maxHours": ' + str(instance_maxHours) + ',  \n')
+    file.writelines('   "maxConsec": ' + str(instance_maxConsec) + ',  \n')
+    file.write('   "maxPresence": ' + str(instance_maxPresence) + ',  \n')
+    file.write('   "demand": ' + str(instance_demand) + ' \n')
     file.write('}')
     file.close()

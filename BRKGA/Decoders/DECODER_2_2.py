@@ -23,23 +23,6 @@ def GetDemandOrder(chromosome,demand):
     return(demandOrdered)
 
 
-def ConsecutiveHoursAddingHour(hour,schedule):
-
-
-    beforeNoWorking = afterNoWorking = hour
-    schedule[hour] = 1
-    before = np.argwhere(schedule[:hour] == 0)
-    if(before.size>0):
-        beforeNoWorking = before[-1][0]
-
-    after = np.argwhere(schedule[hour+1:] == 0)
-    if(after.size>0):
-        afterNoWorking = after[0][0] + hour+1
-
-    consecutive = afterNoWorking-beforeNoWorking-1
-    schedule[hour] = 0
-    return(consecutive)
-
 def ValidConsecutiveHoursAddingHour(hour,schedule, maxConsec):
 
     maxConsec -=1 #Selected hour
@@ -60,13 +43,13 @@ def ValidConsecutiveHoursAddingHour(hour,schedule, maxConsec):
             return False
         i+=1
 
-    return (maxConsec<0)
+    return (maxConsec>=0)
 
 def PresenceAddingHour(hour,nurse):
 
     ini = min(hour, nurse['ini'])
     end = max(hour, nurse['end'])
-    presence = end-ini-1
+    presence = end-ini+1
     
     return(presence)
 
@@ -83,7 +66,7 @@ def CanAddHour(hour, nurse, data):
     if(data.maxPresence < PresenceAddingHour(hour, nurse)):
         return False
 
-    if(ValidConsecutiveHoursAddingHour(hour,schedule, data.maxConsec)):
+    if(ValidConsecutiveHoursAddingHour(hour,schedule, data.maxConsec)==False):
         return False
 
     restValid = (hour>0 and schedule[hour-1]==1) or (hour>1 and schedule[hour-2]==1) or (hour < data.nHours-2 and schedule[hour+2]==1)or (hour < data.nHours-1 and schedule[hour+1]==1)
@@ -120,6 +103,7 @@ def decodeOneChromosome(chromosome, sourceData):
         # Not added
         if(added == False):
             solution[usedNurses] = {'schedule': np.zeros(data.nHours), 'workingHours':1, 'ini': hourToDemand, 'end': hourToDemand }
+            solution[usedNurses]['schedule'] = solution[usedNurses]['schedule'].astype(int)
             solution[usedNurses]['schedule'][hourToDemand] = 1
             usedNurses +=1
 
@@ -132,11 +116,14 @@ def decodeOneChromosome(chromosome, sourceData):
     return(result)
 
 def decode(population, sourceData ):
+    i = 0
     for ind in population:
         chromosome = np.array(ind['chr'])
         result = decodeOneChromosome(chromosome,sourceData)
         ind['solution']=result['solution']
         ind['fitness']=result['fitness']
+        i += 1
+        print(str(i)+ ',' + str(result['fitness']))
     return(population)
     
 def getChromosomeLength(sourceData):

@@ -1,0 +1,7 @@
+nNurses = 30;
+nHours = 11;
+minHours = 3;
+maxHours = 6;
+maxConsec = 5;
+maxPresence = 9;
+demand = [11, 9, 7, 10, 12, 15, 12, 13, 10, 7, 7];

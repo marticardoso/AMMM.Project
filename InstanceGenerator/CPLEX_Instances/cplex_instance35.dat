@@ -1,7 +1,7 @@
-nNurses = 40;
-nHours = 15;
-minHours = 3;
-maxHours = 9;
-maxConsec = 3;
-maxPresence = 12;
-demand = [13, 12, 11, 14, 13, 13, 10, 8, 10, 7, 9, 8, 8, 5, 6];
+nNurses = 191;
+nHours = 26;
+minHours = 10;
+maxHours = 18;
+maxConsec = 10;
+maxPresence = 7;
+demand = [46, 43, 40, 36, 35, 31, 36, 34, 33, 33, 35, 34, 29, 27, 28, 25, 26, 31, 33, 38, 43, 46, 49, 44, 44, 43];
