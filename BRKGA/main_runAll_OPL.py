@@ -6,7 +6,7 @@ import datetime
 import importlib
 import BRKGA as brkga # BRKGA framework (problem independent)
 import Checks as Check
-import Decoders.DECODER_2_5 as decoder # Dgcoder algorithm (problem-dependent)
+import Decoders.Decoder as decoder # Dgcoder algorithm (problem-dependent)
 from CONFIGURATION import config # Configuration parameters (problem-dependent and execution-dependent)
 from pandas import *
 

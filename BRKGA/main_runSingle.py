@@ -5,7 +5,7 @@ import time
 import datetime
 import BRKGA as brkga
 import Checks as Check
-import BRKGA.Decoders.DECODER_2_5 as decoder 
+import BRKGA.Decoders.Decoder as decoder 
 from BRKGA.Instances_OPL.py_instance1 import data 
 from BRKGA.CONFIGURATION import config 
 from pandas import *
