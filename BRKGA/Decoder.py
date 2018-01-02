@@ -1,14 +1,32 @@
 import numpy as np
 import math
-import DataClass as dataClass
+import Utils.DataClass as dataClass
+import Utils.FillSchedule as fillScheduleFunctions
+import Utils.Checks as checkFunctions
+from multiprocessing import Pool
+from functools import partial
 
 def getChromosomeLength(sourceData):
-    data = dataClass.DataClass(sourceData)
-    return(sum(data.demand))
+    return(sum(sourceData['demand']))
 
-# Decoder
 
 def decode(population, sourceData ):
+    nprocs = 4
+    chunksize = 5
+    p = Pool(nprocs)
+    populationResult= p.map(partial(decodeIndividual, sourceData=sourceData), population, chunksize=chunksize)
+    p.terminate()
+    return populationResult
+
+def decodeIndividual(ind, sourceData):
+    chromosome = np.array(ind['chr'])
+    result = decodeOneChromosome(chromosome,sourceData)
+    ind['solution']=result['solution']
+    ind['fitness']=result['fitness']
+    return ind
+
+
+def decodeNoMultiprocessing(population, sourceData ):
     i = 0
     for ind in population:
         chromosome = np.array(ind['chr'])
@@ -19,11 +37,12 @@ def decode(population, sourceData ):
     return(population)
 
 
+
 def decodeOneChromosome(chromosome, sourceData):
     data = dataClass.DataClass(sourceData)
     chrLength = getChromosomeLength(sourceData)
 
-    solution = [None]*data.nNurses
+    solution = list([None]*data.nNurses)
     usedNurses = 0
     
     demandOrder =  GetDemandOrder(chromosome,data.demand)
@@ -62,7 +81,7 @@ def decodeOneChromosome(chromosome, sourceData):
     if(valid == True):
         result = {'solution': solution[:usedNurses], 'fitness': usedNurses}
     else:
-        result = {'solution': [], 'fitness': data.nNurses*1000}
+        result = {'solution': [], 'fitness': data.nNurses*100}
     return(result)
 
 
@@ -146,9 +165,9 @@ def ValidRestAddingHour(hour, nurse, data):
     presence = end - ini + 1
 
     # Compute min and max rest 
-    maxRest = presence - data.minHours
     minRest = math.floor(presence / (data.maxConsec+1.0))
     minRest = max(minRest, presence - data.maxHours)
+    maxRest = max(minRest,presence - data.minHours)
     
 
     optionalRests = 0
@@ -213,7 +232,7 @@ def CheckValidSolution(solution, data):
         schedule = nurse['schedule']
 
         # Try to fill all schedule
-        valid = FillSchedule(nurse, data)
+        valid = fillScheduleFunctions.FillSchedule(nurse, data)
         if(valid == False):
             return False
 
@@ -231,159 +250,19 @@ def CheckValidSolution(solution, data):
             return False
 
         #Max consec
-        if(CheckMaxConsecutive(nurse['schedule'], data.maxConsec) == False):
+        if(checkFunctions.CheckMaxConsecutiveHours(nurse['schedule'], data.maxConsec) == False):
             return False
         
         #Check rest
-        if(CheckRest(nurse['schedule']) == False):
+        if(checkFunctions.CheckRest(nurse['schedule']) == False):
             return False
     return True
 
 
-# Return true if the schedule guarantee the maxConsec constrain
-def CheckMaxConsecutive(schedule,maxConsec):
-    consec = 0
-    for i in range(len(schedule)):
-        if(schedule[i]==1):
-            consec +=1
-        else:
-            consec = 0
-
-        if(consec > maxConsec):
-            return False
-    return True
-
-# Return true if the schedule guarantee the rest constrain
-def CheckRest(schedule):
-    isWorking = False
-    restConsec = 0
-    for i in range(len(schedule)):
-        if(schedule[i]==1):
-            if(restConsec>1 and isWorking):
-                return False
-            restConsec = 0
-            isWorking = True
-        else:
-            restConsec +=1
-    return True
 
 
 
-################################################################
-## Functions to fill the schedule of a nurse (final solution) ##
-################################################################
-
-def FillSchedule(nurse, data):
-
-    ini = nurse['ini']
-    end = nurse['end']
-
-    optionalRests = []
-
-    pos = ini
-    while pos <= end-data.maxConsec:
-        # Window internval (length maxConsec +1)
-        screenIni = pos
-        screenEnd = pos+data.maxConsec
-        
-        # For that set the rests correctly
-        i = screenEnd
-        firstRestFound = False
-        mostRightRest = None
-        nearRest = None
-        while i>=screenIni:
-            if(nurse['schedule'][i]==0):
-                if(firstRestFound==False):
-                    mostRightRest = i
-                    nearRest = i
-                    firstRestFound = True
-                    SetWorkingHour(i-1, nurse, data)
-                    SetWorkingHour(i+1, nurse, data)
-                else:
-                    optionalRests = optionalRests +[i]
-                    nearRest = i
-                    SetWorkingHour(i-1, nurse, data)
-            i -= 1
-        #If there is no rest in the interval -> maxConsec error
-        if mostRightRest == None:
-            return False
-        pos = mostRightRest +1
-
-    # Last window
-    i = pos
-    while i < end:
-        if(nurse['schedule'][i]==0):
-            optionalRests = optionalRests +[i]
-            SetWorkingHour(i+1, nurse, data)
-        i += 1
 
 
-    i = 0
-    while i < len(optionalRests) and nurse['workingHours']<data.minHours:
-        SetWorkingHour(optionalRests[i], nurse, data)
-        i +=1
-    # If needed, it add hours to the left and right
-    if nurse['workingHours']<data.minHours:
-        AddRightHours(nurse, data)
-    if nurse['workingHours']<data.minHours:
-        AddLeftHours(nurse, data)
 
-    return True
-
-
-def SetWorkingHour(hour,nurse,data):
-    if hour >= data.nHours:
-        return
-    if(nurse['schedule'][hour]==1):
-        return
-
-    nurse['schedule'][hour] = 1
-    nurse['workingHours'] +=1
-    nurse['ini'] = min(nurse['ini'],hour)
-    nurse['end'] = max(nurse['end'],hour)
-
-
-# It add hours to the right of the schedule until it reach the minHours
-def AddRightHours(nurse, data):
-    consec = 0
-    i = nurse['end']
-    while i>=0 and nurse['schedule'][i]==1:
-        consec +=1
-        i -=1
-    i = nurse['end']+1
-    # If maxConsec, then rest 1 hour
-    if(consec == data.maxConsec):
-        i +=1
-        consec = 0
-
-    while(i< data.nHours and  nurse['workingHours']< data.minHours):
-        SetWorkingHour(i, nurse, data)
-        i += 1
-        # If maxConsec, then rest 1 hour
-        if(consec == data.maxConsec):
-            i -= 1
-            consec = 0
-
-# It add hours to the left of the schedule until it reach the minHours
-def AddLeftHours(nurse, data):
-    consec = 0
-    i = nurse['ini']
-    while i < data.nHours and nurse['schedule'][i]==1:
-        consec +=1
-        i +=1
-    
-    i = nurse['ini']-1
-    # If maxConsec, then rest 1 hour
-    if(consec == data.maxConsec):
-        i -=1
-        consec = 0
-
-    while(i>=0 and  nurse['workingHours']< data.minHours):
-        SetWorkingHour(i, nurse, data)
-        consec +=1
-        i -= 1
-        # If max consec, then rest 1 hour
-        if(consec == data.maxConsec):
-            i -= 1
-            consec = 0
 

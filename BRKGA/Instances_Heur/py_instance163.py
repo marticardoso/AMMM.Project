@@ -1,9 +1,9 @@
 data = { 
-   "nNurses": 63, 
-   "nHours": 22,  
-   "minHours": 7,  
-   "maxHours": 13,  
-   "maxConsec": 9,  
-   "maxPresence": 22,  
-   "demand": [11, 16, 18, 23, 28, 26, 29, 24, 26, 28, 31, 28, 29, 28, 31, 28, 30, 31, 35, 31, 32, 28] 
+   "nNurses": 65, 
+   "nHours": 31,  
+   "minHours": 10,  
+   "maxHours": 14,  
+   "maxConsec": 12,  
+   "maxPresence": 26,  
+   "demand": [14, 17, 22, 27, 27, 25, 28, 30, 26, 21, 21, 19, 15, 14, 12, 13, 8, 8, 11, 6, 10, 8, 10, 13, 16, 21, 20, 18, 15, 17, 12] 
 }

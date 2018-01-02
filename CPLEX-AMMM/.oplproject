@@ -5,15 +5,13 @@
 		<config default="true" name="RunAll" category="opl">
 			<ref name="main.mod" type="model">
 			</ref>
-			<ref name="CPLEX_InstancesSelected/+/cplex_inst24.dat" type="data">
-			</ref>
 		</config>
 		<config default="false" name="RunOne" category="opl">
 			<ref name="CPLEX-AMMM.ops" type="setting">
 			</ref>
 			<ref name="model.mod" type="model">
 			</ref>
-			<ref name="CPLEX_InstancesSelected/+/cplex_inst24.dat" type="data">
+			<ref name="ex.dat" type="data">
 			</ref>
 		</config>
 	</configs>

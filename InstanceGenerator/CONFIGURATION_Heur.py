@@ -7,5 +7,5 @@ config = {'numInstances': 500,
           'maxConsec':[6,18], 
           'maxPresence': [7,35], 
           'nHours':[20,40], 
-          'demand':[5,50],
+          'demand':[6,40],
           'demandInc': 5}

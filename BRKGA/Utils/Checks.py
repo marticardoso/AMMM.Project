@@ -1,6 +1,7 @@
 import math
 import numpy as np
 
+# Return true if the schedule guarantee the maxConsec constrain
 def CheckMaxConsecutiveHours(schedule, maxConsec):
     consec = 0
     for i in range(len(schedule)):
@@ -11,6 +12,7 @@ def CheckMaxConsecutiveHours(schedule, maxConsec):
         else:
             consec = 0
     return True
+
 
 def CheckMaxPresence(schedule, maxPresence):
     ini = len(schedule)
@@ -30,7 +32,7 @@ def CheckMinAndMaxHours(schedule, minHours, maxHours):
         return False
     return True
 
-
+# Return true if the schedule guarantee the rest constrain
 def CheckRest(schedule):
     isWorking = False
     restConsec = 0

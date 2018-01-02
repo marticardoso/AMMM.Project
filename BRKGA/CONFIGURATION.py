@@ -1,1 +1,1 @@
-config = {'numIndividuals': 50, 'maxNumGen':20, 'eliteProp':0.2, 'mutantProp':0.4,  'inheritanceProb':0.7}
+config = {'numIndividuals': 50, 'maxNumGen':40, 'eliteProp':0.2, 'mutantProp':0.3,  'inheritanceProb':0.8}

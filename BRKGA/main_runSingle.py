@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import time
 import datetime
 import BRKGA as brkga
-import Checks as Check
-import BRKGA.Decoders.Decoder as decoder 
-from BRKGA.Instances_OPL.py_instance1 import data 
-from BRKGA.CONFIGURATION import config 
+import Utils.Checks as Check
+import Decoder as decoder 
+from Instances_Heur.py_instance86 import data 
+from CONFIGURATION import config 
 from pandas import *
 
 print(config)
@@ -27,7 +27,7 @@ population=brkga.initializePopulation(numIndividuals,chrLength)
 t_ini = time.time()
 i=0
 while (i<maxNumGen):
-    population = decoder.decode(population,data)
+    population = decoder.decodeNoMultiprocessing(population,data)
     bestFit = brkga.getBestFitness(population)['fitness']
     evol.append(bestFit)
     if numElite>0:
@@ -46,7 +46,7 @@ while (i<maxNumGen):
 t_end = time.time()
 t_exec = t_end - t_ini
 
-population = decoder.decode(population, data)
+population = decoder.decodeNoMultiprocessing(population, data)
 bestIndividual = brkga.getBestFitness(population)
 
  #Print some results
