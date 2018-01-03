@@ -4,6 +4,7 @@ from Utils.ValidAddingHour import CanAddHour
 from Utils.FillSchedule import SetWorkingHour, FillAllSchedules
 from Utils.Checks import CheckAllConstrains
 import copy
+
 def CanRealocateHour(hour, nurseOrigin, sol, data):
     for nurse in range(len(sol)):
         if nurse!=nurseOrigin and sol[nurse]['workingHours']>0:

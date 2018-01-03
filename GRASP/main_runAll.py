@@ -2,6 +2,7 @@
 #imports
 import random, time
 import numpy as np
+import math
 from problem_dependent.construct import construct
 import Utils.Checks as Check
 #configuration parameters
@@ -43,35 +44,31 @@ for i in range(1,20+1):
 
     t_begin = time.time()
     for i in range(MAXITER):
-        print('Iteration: ' + str(i))
+        t_it_ini = time.time()
         sol, valid = construct(E, ALPHA, data, seeds[i])
         if valid: 
             sol = local_search(sol, data)
             obj = compute_obj(sol)
             #Check all constrains
             valid = Check.CheckAllConstrains(sol,data,True)
-            if valid == False: 
-                obj = 10000
-            if obj < obj_best:
+
+            if valid == True and obj < obj_best:
                 sol_best = sol
                 obj_best = obj
-            print("----- Feasible solution obtained ----- with obj func: " +  str(obj))
-        elif not sol:
-            print('Not feasible: solution could not be corrected')
-            #the error of why could not be corrected is displayed by correc_resting_hours function
-        else:
-            print("Not feasible: solution was corrected but it did not fulfil the constaints either")
         obj_hist[i] = obj_best
-
+        t_it_end = time.time()
+        t_it_in = math.floor(t_it_end- t_it_ini)
+        print "It"+str(i) + "-"+str(t_it_in)+"("+str(obj_best) + ")",
+    print ""
     t_end = time.time()
 
 
     #print solution obtained
-    print('---------- SOLUTION -----------')
-    print('Total time: {:.2f}s'.format(t_end - t_begin))
+    #print('---------- SOLUTION -----------')
+    print('    - Total time: {:.2f}s'.format(t_end - t_begin))
     if not sol_best:
-        print('Could not find any feasible solution')
+        print('     - Nurses: Could not find any feasible solution')
     else:
-        print('Best objective function value: ' + str(obj_best))
-        print('Solution:')
+        print('     - Nurses: ' + str(obj_best))
+        #print('Solution:')
         #print(sorted(sol_best))

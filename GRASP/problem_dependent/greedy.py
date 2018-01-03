@@ -1,59 +1,55 @@
 from Utils.ValidAddingHour import CanAddHour
-
+import numpy as np
 def compute_greedy_cost(E, sol, data):
     greedy_cost = [1.0]*len(E)
     demand = data.demand
 
-    workers = [0]*data.nHours
-    nurses_used = [0]*data.nNurses
-    hours = {}
-    for idx, nurse in enumerate(sol):
-        for hour in range(0,data.nHours):
-            workers[hour]+=nurse['schedule'][hour]
-        nurses_used[idx] = nurse['workingHours']>0
+    workers = np.array([0.0]*data.nHours)
+    for nurse in sol:
+        workers += nurse['schedule']
 
+    remainingDemand = np.array(demand) - workers
+    
     firstHourWithDemand = 0
     found = False
     while found == False:
-        if demand[firstHourWithDemand]- workers[firstHourWithDemand]>0:
+        if remainingDemand[firstHourWithDemand]>0:
             found = True
         else:
             firstHourWithDemand+=1
 
-    lastHourWithDemand = 0
-    found = False
-    while found == False:
-        if demand[lastHourWithDemand]- workers[lastHourWithDemand]>0:
-            found = True
-        else:
-            lastHourWithDemand-=1
-    #for key in hours:
-    #    hours[key] = sorted(hours[key])
     for indx, e in enumerate(E):
         
         nurse, hour = e
-        factor1 = int(nurses_used[nurse])
+        #Factor1: if a nurse works
+        factor1 = int(sol[nurse]['workingHours']>0)
         
-        demandHour = demand[hour]-workers[hour]
+        demandHour = remainingDemand[hour]
         if hour>0:
-            demandLeft = max(demand[hour-1]-workers[hour-1],0)
+            demandLeft = max(remainingDemand[hour-1],0)
         else:
             demandLeft = 0
         if hour< data.nHours-1:
-            demandRight = max(demand[hour+1]-workers[hour+1],0)
+            demandRight = max(remainingDemand[hour+1],0)
         else:
             demandRight = 0
 
+        #Factor2: remaining demand at hour hour
         factor2 = demandHour
+
+        #Factor4: difference of demand between (hour-1 and hour) and (hour+1 and hour)
         factor4 = min(demandHour -demandLeft, demandHour - demandRight)
+
+        #Factor3: Has an hour near
         factor3 = 0
         if hour > 0 and sol[nurse]['schedule'][hour-1]:
             factor3=1
         if hour<data.nHours-1 and sol[nurse]['schedule'][hour+1]:
             factor3=1
 
-        factor5 = firstHourWithDemand == hour + lastHourWithDemand == hour
-        greedy_cost[indx] = data.nNurses*factor1 + factor4 + factor2
+        #Factor5: First hour with remaining demand
+        factor5 = firstHourWithDemand == hour
+        greedy_cost[indx] = 10*data.nNurses*factor1 + 10*factor4 + 10*factor2 + factor3 + factor5
     return greedy_cost
 
 def compute_obj(sol):
@@ -68,12 +64,10 @@ def update(E, sol, lastNurse, data):
     """Updates the vector of elements. In doing so also checks if the demand
     is already fulfilled, in which case the elements available have to be 0 or
     the algorithm will continue to add elements to the solution."""
-    workers = [0]*data.nHours
+    workers = np.array([0.0]*data.nHours)
     for nurse in sol:
-        for hour in range(0,data.nHours):
-            workers[hour] += nurse['schedule'][hour]
-                
-
+        workers += nurse['schedule']
+    
     E_updated = []
     for e in E:
         if workers[e[1]] < data.demand[e[1]]:

@@ -9,7 +9,7 @@ import Utils.Checks as Check
 from configuration import conf  #configuration parameters
 
 #problem dependent
-from Instances1.py_instance2 import data as sourcedata
+from Instances_OPL.py_instance2 import data as sourcedata
 from Utils.DataClass import DataClass
 from problem_dependent.local_search import local_search
 from problem_dependent.greedy import get_solution_elements, compute_obj
@@ -41,11 +41,12 @@ for i in range(MAXITER):
         valid = Check.CheckAllConstrains(sol,data,True)
         if valid == False: 
             obj = 10000
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$-- Some errors ----- " +  str(obj))
         if obj < obj_best:
             sol_best = sol
             obj_best = obj
         print("----- Feasible solution obtained ----- with obj func: " +  str(obj))
-    elif not sol:
+    elif sol == None:
         print('Not feasible: solution could not be corrected')
         #the error of why could not be corrected is displayed by correc_resting_hours function
     else:

@@ -1,3 +1,4 @@
+import numpy as np
 class DataClass:
 
     def __init__(self, sourcedata):
@@ -7,7 +8,7 @@ class DataClass:
         self.maxHours = int(sourcedata["maxHours"])
         self.maxConsec = int(sourcedata["maxConsec"])
         self.maxPresence = int(sourcedata["maxPresence"])
-        self.demand = list(sourcedata["demand"])
+        self.demand = np.array(sourcedata["demand"])
         self.originalData = sourcedata
     
     def clone(self):
