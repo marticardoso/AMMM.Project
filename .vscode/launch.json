@@ -20,6 +20,21 @@
             ]
         },
         {
+            "name": "-- GRASP runAll--",
+            "type": "python",
+            "request": "launch",
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${workspaceRoot}/GRASP/main_runAll.py",
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput"
+            ]
+        },
+        {
             "name": "-- BRKGA -- (runAll-OPL)",
             "type": "python",
             "request": "launch",
