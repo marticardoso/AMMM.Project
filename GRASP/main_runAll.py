@@ -16,7 +16,7 @@ import importlib
 
 
 def import_instance(num):
-    name = "Instances_OPL.py_instance" + str(num)
+    name = "Instances_Heur.py_instance" + str(num)
     m = importlib.import_module(name)
     return m.data
 

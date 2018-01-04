@@ -94,10 +94,11 @@ def AddRightHours(nurse, data):
 
     while(i< data.nHours and  nurse['workingHours']< data.minHours):
         SetWorkingHour(i, nurse, data)
+        consec +=1
         i += 1
         # If maxConsec, then rest 1 hour
         if(consec == data.maxConsec):
-            i -= 1
+            i += 1
             consec = 0
 
 # It add hours to the left of the schedule until it reach the minHours

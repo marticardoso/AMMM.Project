@@ -45,8 +45,8 @@ def local_search(solution, data):
     improvement = True
     while improvement:
         solution, improvement = local_search_main(solution, data)
-        if improvement:
-            print('********** local serach does something **********')
+        #if improvement:
+        #    print('********** local serach does something **********')
     
     valid = FillAllSchedules(solution,data)
     if(valid==True):

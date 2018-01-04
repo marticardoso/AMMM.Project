@@ -15,7 +15,7 @@ main {
 		cplex.epgap=0.01;
 		cplex.tilim= 60*60*1 +60; //Max 1 hours
 		var model = new IloOplModel(def,cplex);
-	 	var data = new IloOplDataSource("CPLEX_InstancesSelected/"+sourceFile);
+	 	var data = new IloOplDataSource("Instances/"+sourceFile);
 	 	
 	 	model.addDataSource(data);
 	 	

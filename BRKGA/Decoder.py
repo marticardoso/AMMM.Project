@@ -11,6 +11,7 @@ def getChromosomeLength(sourceData):
 
 
 def decode(population, sourceData ):
+    #Multithread
     nprocs = 4
     chunksize = 5
     p = Pool(nprocs)
@@ -167,7 +168,7 @@ def ValidRestAddingHour(hour, nurse, data):
     # Compute min and max rest 
     minRest = math.floor(presence / (data.maxConsec+1.0))
     minRest = max(minRest, presence - data.maxHours)
-    maxRest = max(minRest,presence - data.minHours)
+    maxRest = max(minRest, presence - data.minHours)
     
 
     optionalRests = 0
