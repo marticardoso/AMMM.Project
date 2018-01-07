@@ -1,3 +1,5 @@
+# File that run all 20 instances used to do the ILMvsHeur analyisis
+
 #Allows multiprocessing
 from multiprocessing import freeze_support
 if __name__ == '__main__':
@@ -87,6 +89,5 @@ if __name__ == '__main__':
             if Check.CheckRest(nurse['schedule']) == False:
                 print('//////////////########################## ERROR REST ########################')
 
-            #print('N:' +str(i)+' ' + str(nurse['schedule']) + ' Hours:' + str(nurse['workingHours'])+ ' (' + str(nurse['ini']) +' to '+str(nurse['end'])+')')
             i+=1
 

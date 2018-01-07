@@ -16,7 +16,7 @@ import importlib
 
 
 def import_instance(num):
-    name = "Instances_Heur.py_instance" + str(num)
+    name = "Instances_OPL.py_instance" + str(num)
     m = importlib.import_module(name)
     return m.data
 
@@ -44,7 +44,6 @@ for i in range(1,20+1):
 
     t_begin = time.time()
     for i in range(MAXITER):
-        t_it_ini = time.time()
         sol, valid = construct(E, ALPHA, data, seeds[i])
         if valid: 
             sol = local_search(sol, data)
@@ -56,19 +55,15 @@ for i in range(1,20+1):
                 sol_best = sol
                 obj_best = obj
         obj_hist[i] = obj_best
-        t_it_end = time.time()
-        t_it_in = math.floor(t_it_end- t_it_ini)
-        print "It"+str(i) + "-"+str(t_it_in)+"("+str(obj_best) + ")",
+        print "It"+str(i) + "("+str(obj_best) + ")",
     print ""
     t_end = time.time()
 
 
     #print solution obtained
-    #print('---------- SOLUTION -----------')
-    print('    - Total time: {:.2f}s'.format(t_end - t_begin))
+    print('---------- SOLUTION -----------')
+    print('     - Total time: {:.2f}s'.format(t_end - t_begin))
     if not sol_best:
         print('     - Nurses: Could not find any feasible solution')
     else:
         print('     - Nurses: ' + str(obj_best))
-        #print('Solution:')
-        #print(sorted(sol_best))

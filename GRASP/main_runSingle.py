@@ -69,4 +69,7 @@ if not sol_best:
 else:
     print('Best objective function value: ' + str(obj_best))
     print('Solution:')
-    #print(sorted(sol_best))
+    i=0
+    for nurse in sol_best:
+        print('N' +str(i)+' ' + str(nurse['schedule']) + ' Hours:' + str(nurse['workingHours'])+ ' (' + str(nurse['ini']) +' to '+str(nurse['end'])+')')
+        i+=1

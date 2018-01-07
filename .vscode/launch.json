@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "-- GRASP --",
+            "name": "-- GRASP -- (runSingle)",
             "type": "python",
             "request": "launch",
             "pythonPath": "${config:python.pythonPath}",
-            "program": "${workspaceRoot}/GRASP/main.py",
+            "program": "${workspaceRoot}/GRASP/main_runSingle.py",
             "cwd": "${workspaceRoot}",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
@@ -20,11 +20,26 @@
             ]
         },
         {
-            "name": "-- GRASP runAll--",
+            "name": "-- GRASP -- (runAll-OPL)",
             "type": "python",
             "request": "launch",
             "pythonPath": "${config:python.pythonPath}",
-            "program": "${workspaceRoot}/GRASP/main_runAll.py",
+            "program": "${workspaceRoot}/GRASP/main_runAll_OPL.py",
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput"
+            ]
+        },
+        {
+            "name": "-- GRASP -- (runAll-Heur)",
+            "type": "python",
+            "request": "launch",
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${workspaceRoot}/GRASP/main_runAll_Heur.py",
             "cwd": "${workspaceRoot}",
             "env": {},
             "envFile": "${workspaceRoot}/.env",
@@ -94,48 +109,7 @@
                 "RedirectOutput"
             ]
         },
-        {
-            "name": "Python: Attach",
-            "type": "python",
-            "request": "attach",
-            "localRoot": "${workspaceRoot}",
-            "remoteRoot": "${workspaceRoot}",
-            "port": 3000,
-            "secret": "my_secret",
-            "host": "localhost"
-        },
-        {
-            "name": "Python: Terminal (integrated)",
-            "type": "python",
-            "request": "launch",
-            "stopOnEntry": true,
-            "pythonPath": "${config:python.pythonPath}",
-            "program": "${file}",
-            "cwd": "",
-            "console": "integratedTerminal",
-            "env": {},
-            "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit"
-            ]
-        },
-        {
-            "name": "Python: Terminal (external)",
-            "type": "python",
-            "request": "launch",
-            "stopOnEntry": true,
-            "pythonPath": "${config:python.pythonPath}",
-            "program": "${file}",
-            "cwd": "",
-            "console": "externalTerminal",
-            "env": {},
-            "envFile": "${workspaceRoot}/.env",
-            "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit"
-            ]
-        },
+        
         
     ]
 }

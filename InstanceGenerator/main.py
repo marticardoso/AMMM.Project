@@ -5,7 +5,7 @@ import os
 import errno
 
 # Configuration parameters
-from CONFIGURATION_Heur import config 
+from CONFIGURATION import config 
 print config
 
 # initializations

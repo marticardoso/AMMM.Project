@@ -1,3 +1,5 @@
+# File that run all 100 instances used to do the Heuristic analyisis
+
 #Allows multiprocessing
 from multiprocessing import freeze_support
 if __name__ == '__main__':

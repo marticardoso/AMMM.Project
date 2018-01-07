@@ -11,7 +11,7 @@
 			</ref>
 			<ref name="model.mod" type="model">
 			</ref>
-			<ref name="Instances/cplex_instance5.dat" type="data">
+			<ref name="Instances/cplex_instance6.dat" type="data">
 			</ref>
 		</config>
 	</configs>
