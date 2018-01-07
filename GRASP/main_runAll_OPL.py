@@ -6,7 +6,7 @@ import math
 from problem_dependent.construct import construct
 import Utils.Checks as Check
 #configuration parameters
-from configuration import conf  #configuration parameters
+from CONFIGURATION import conf  #configuration parameters
 
 #problem dependent
 from Utils.DataClass import DataClass

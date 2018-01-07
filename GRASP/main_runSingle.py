@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from problem_dependent.construct import construct
 import Utils.Checks as Check
 #configuration parameters
-from configuration import conf  #configuration parameters
+from CONFIGURATION import conf  #configuration parameters
 
 #problem dependent
 from Instances_OPL.py_instance2 import data as sourcedata
