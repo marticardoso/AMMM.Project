@@ -1,6 +1,5 @@
-#########################
-## AMMM Course Project ##
-#########################
+# AMMM Course Project #
+
 Project of AMMM (Algorithmic Methods for Mathematical Models)
 
 Authors:
